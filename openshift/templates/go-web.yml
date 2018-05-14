@@ -72,7 +72,10 @@ objects:
       description: Defines how to deploy the application server
   spec:
     strategy:
-      type: Recreate
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 15
+        timeoutSeconds: 60
     triggers:
     - type: ImageChange
       imageChangeParams:
@@ -83,7 +86,7 @@ objects:
           kind: ImageStreamTag
           name: go-web:latest
     - type: ConfigChange
-    replicas: 1
+    replicas: 5
     selector:
       name: go-web
     template:
